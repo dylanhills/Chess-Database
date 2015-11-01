@@ -1,3 +1,6 @@
+.wrapper{
+	float:left;
+}
 #chessBoard{
 	width: 480px;
 }

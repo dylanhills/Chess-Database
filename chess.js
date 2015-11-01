@@ -4,10 +4,11 @@ var letterArray = ["a","b","c","d","e","f","g","h"];
 var easyConvert = new Array(8);
 var board = new Array(8);
 var legalMoves = [[]];
-var whiteQueensideCastle = true;
-var whiteKingsideCastle = true;
-var blackQueensideCastle = true;
-var blackKingsideCastle = true;
+var castlingAvailability;
+var enPassantSquare;
+var halfMoveCounter;
+var fullMoveNumber;
+var whiteToMove;
 for(var i = 0; i<8; i++){
 	board[i] = new Array(8);
 	easyConvert[i] = new Array(8);
@@ -21,39 +22,106 @@ setSquare = function(row,col,piece){
 	document.getElementById(easyConvert[row][col]).innerHTML = piece;
 }
 setUpStandardGame = function(){
-	setSquare(0,0,"bRook");
-	setSquare(0,1,"bKnight");
-	setSquare(0,2,"bBishop");
-	setSquare(0,3,"bQueen");
-	setSquare(0,4,"bKing");
-	setSquare(0,5,"bBishop");
-	setSquare(0,6,"bKnight");
-	setSquare(0,7,"bRook");
-	setSquare(1,0,"bPawn");
-	setSquare(1,1,"bPawn");
-	setSquare(1,2,"bPawn");
-	setSquare(1,3,"bPawn");
-	setSquare(1,4,"bPawn");
-	setSquare(1,5,"bPawn");
-	setSquare(1,6,"bPawn");
-	setSquare(1,7,"bPawn");
+	whiteToMove = true;
+	halfMoveCounter = 0;
+	fullMoveNumber = 1;
+	enPassantSquare = "-";
+	castlingAvailability = "KQkq";
 
-	setSquare(7,0,"wRook");
-	setSquare(7,1,"wKnight");
-	setSquare(7,2,"wBishop");
-	setSquare(7,3,"wQueen");
-	setSquare(7,4,"wKing");
-	setSquare(7,5,"wBishop");
-	setSquare(7,6,"wKnight");
-	setSquare(7,7,"wRook");
-	setSquare(6,0,"wPawn");
-	setSquare(6,1,"wPawn");
-	setSquare(6,2,"wPawn");
-	setSquare(6,3,"wPawn");
-	setSquare(6,4,"wPawn");
-	setSquare(6,5,"wPawn");
-	setSquare(6,6,"wPawn");
-	setSquare(6,7,"wPawn");
+	setSquare(0,0,"r");
+	setSquare(0,1,"n");
+	setSquare(0,2,"b");
+	setSquare(0,3,"q");
+	setSquare(0,4,"k");
+	setSquare(0,5,"b");
+	setSquare(0,6,"n");
+	setSquare(0,7,"r");
+	setSquare(1,0,"p");
+	setSquare(1,1,"p");
+	setSquare(1,2,"p");
+	setSquare(1,3,"p");
+	setSquare(1,4,"p");
+	setSquare(1,5,"p");
+	setSquare(1,6,"p");
+	setSquare(1,7,"p");
+
+	setSquare(7,0,"R");
+	setSquare(7,1,"N");
+	setSquare(7,2,"B");
+	setSquare(7,3,"Q");
+	setSquare(7,4,"K");
+	setSquare(7,5,"B");
+	setSquare(7,6,"N");
+	setSquare(7,7,"R");
+	setSquare(6,0,"P");
+	setSquare(6,1,"P");
+	setSquare(6,2,"P");
+	setSquare(6,3,"P");
+	setSquare(6,4,"P");
+	setSquare(6,5,"P");
+	setSquare(6,6,"P");
+	setSquare(6,7,"P");
+}
+setUpHordeGame1 = function(){
+	whiteToMove = true;
+	halfMoveCounter = 0;
+	fullMoveNumber = 1;
+	enPassantSquare = "-";
+	castlingAvailability = "KQ";
+	setSquare(0,0,"r");
+	setSquare(0,1,"n");
+	setSquare(0,2,"b");
+	setSquare(0,3,"q");
+	setSquare(0,4,"k");
+	setSquare(0,5,"b");
+	setSquare(0,6,"n");
+	setSquare(0,7,"r");
+	setSquare(1,0,"p");
+	setSquare(1,1,"p");
+	setSquare(1,2,"p");
+	setSquare(1,3,"p");
+	setSquare(1,4,"p");
+	setSquare(1,5,"p");
+	setSquare(1,6,"p");
+	setSquare(1,7,"p");
+	for(var i = 7; i>3; i--){
+		for(var j = 0; j<8; j++){
+			setSquare(i,j,"P");
+		}
+	}
+	setSquare(3,1,"P");
+	setSquare(3,2,"P");
+	setSquare(3,5,"P");
+	setSquare(3,6,"P");
+}
+setUpHordeGame2 = function(){
+	whiteToMove = true;
+	halfMoveCounter = 0;
+	fullMoveNumber = 1;
+	enPassantSquare = "-";
+	castlingAvailability = "KQ";
+
+	setSquare(0,0,"r");
+	setSquare(0,1,"n");
+	setSquare(0,2,"b");
+	setSquare(0,3,"q");
+	setSquare(0,4,"k");
+	setSquare(0,5,"b");
+	setSquare(0,6,"n");
+	setSquare(0,7,"r");
+	setSquare(1,0,"p");
+	setSquare(1,1,"p");
+	setSquare(1,2,"p");
+	setSquare(1,3,"p");
+	setSquare(1,4,"p");
+	setSquare(1,5,"p");
+	setSquare(1,6,"p");
+	setSquare(1,7,"p");
+	for(var i = 7; i>3; i--){
+		for(var j = 0; j<8; j++){
+			setSquare(i,j,"P");
+		}
+	}
 }
 selectSquare = function(rank,file){
 	selectedSquare = [rank,file];
@@ -76,7 +144,7 @@ generateLegalMoves = function(rank,file){
 	var piece = board[rank][file];
 	lM = [];
 	switch(piece){
-		case "wPawn":
+		case "P":
 			if(board[rank-1][file] == ""){
 				lM.push([rank-1,file]);
 				if(rank == 6 && board[rank-2][file] == ""){
@@ -86,7 +154,7 @@ generateLegalMoves = function(rank,file){
 			if(file<7 && board[rank-1][file+1].charAt(0) == "b"){
 				lM.push([rank-1,file+1]);}
 			break;
-		case "bPawn":
+		case "p":
 			if(board[rank+1][file] == ""){
 				lM.push([rank+1,file]);
 				if(rank == 1 && board[rank+2][file] == ""){
@@ -96,7 +164,7 @@ generateLegalMoves = function(rank,file){
 			if(file<7 && board[rank+1][file+1].charAt(0) == "w"){
 				lM.push([rank+1,file+1]);}
 			break;
-		case "bRook":
+		case "r":
 			for(var i = rank+1; i<8; i++){
 				if(board[i][file] == ""){
 					lM.push([i,file]);
@@ -138,7 +206,7 @@ generateLegalMoves = function(rank,file){
 				}
 			}
 			break;
-		case "wRook":
+		case "R":
 			for(var i = rank+1; i<8; i++){
 				if(board[i][file] == ""){
 					lM.push([i,file]);
@@ -180,7 +248,7 @@ generateLegalMoves = function(rank,file){
 				}
 			}
 			break;
-		case "bKnight":
+		case "n":
 			if(rank-1>-1 && file-2 >-1 && board[rank-1][file-2].charAt(0) != "b"){
 				lM.push([rank-1,file-2]);
 			}
@@ -206,7 +274,7 @@ generateLegalMoves = function(rank,file){
 				lM.push([rank+2,file+1]);
 			}
 			break;
-		case "wKnight":
+		case "N":
 			if(rank-1>-1 && file-2 >-1 && board[rank-1][file-2].charAt(0) != "w"){
 				lM.push([rank-1,file-2]);
 			}
@@ -232,7 +300,7 @@ generateLegalMoves = function(rank,file){
 				lM.push([rank+2,file+1]);
 			}
 			break;
-		case "bBishop":
+		case "b":
 			height = 1;
 			width = 1;
 			while(rank-height>-1 && file-width>-1){
@@ -290,7 +358,7 @@ generateLegalMoves = function(rank,file){
 				width++;
 			}
 			break;
-		case "wBishop":
+		case "B":
 			height = 1;
 			width = 1;
 			while(rank-height>-1 && file-width>-1){
@@ -348,7 +416,7 @@ generateLegalMoves = function(rank,file){
 				width++;
 			}
 			break;
-		case "bQueen":
+		case "q":
 			for(var i = rank+1; i<8; i++){
 				if(board[i][file] == ""){
 					lM.push([i,file]);
@@ -446,7 +514,7 @@ generateLegalMoves = function(rank,file){
 				width++;
 			}
 			break;
-		case "wQueen":
+		case "Q":
 			for(var i = rank+1; i<8; i++){
 				if(board[i][file] == ""){
 					lM.push([i,file]);
@@ -544,7 +612,7 @@ generateLegalMoves = function(rank,file){
 				width++;
 			}
 			break;
-		case "bKing":
+		case "k":
 			if(rank-1>-1){
 				if(file-1>-1 && board[rank-1][file-1].charAt(0) != "b"){
 					lM.push([rank-1,file-1]);
@@ -580,7 +648,7 @@ generateLegalMoves = function(rank,file){
 				lM.push([0,2]);
 			}
 			break;
-		case "wKing":
+		case "K":
 			if(rank-1>-1){
 				if(file-1>-1 && board[rank-1][file-1].charAt(0) != "w"){
 					lM.push([rank-1,file-1]);
@@ -632,23 +700,105 @@ deselectLegalMoves = function(lM){
 	}	
 }
 generateFEN = function(){
-	var counter = 0;
+	var counter;
 	var output = "";
 	for(var i = 0; i<board.length; i++){
-		console.log("hello "+i);
-		for(var j = 0; j<8; i++){
+		counter = 0;
+		for(var j = 0; j<board[0].length; j++){
 			if(board[i][j] != ""){
 				if(counter !=0){output+=""+counter;}
 				counter = 0;
-				output+=board[i][j].charAt(1);
+				output+=board[i][j].charAt(0);
 			}
 			else{
 				counter++;
 			}
 		}
+		if(counter!=0){
+			output+=""+counter;
+		}
 		output+="/";
 	}
-	return output;
+
+	if(whiteToMove){output+=" w";}
+	else{output+=" b";}
+	output+=" "+castlingAvailability+" "+enPassantSquare+" "+halfMoveCounter+" "+fullMoveNumber;
+	console.log(output);
+}
+inputFENHelper = function(){
+	document.getElementById("FENOutput").innerHTML = inputFEN();
+}
+inputFEN = function(){
+	for(var i =0; i<8; i++){
+		for(var j = 0; j<8; j++){
+			board[i][j] = "";
+		}
+	}
+	FEN = document.getElementById("FENInput").value;
+	var counter = 0;
+	var currentChar;
+	for(var i = 0; i<8; i++){
+		for(var j = 0; j<8; j++){
+			console.log(i+"  "+j);
+			currentChar = FEN.charAt(counter);
+			if(isNaN(currentChar)){
+				board[i][j] = currentChar;
+			}
+			else{
+				j+=parseInt(currentChar)-1;
+			}
+			counter++;
+		}
+		if(FEN.charAt(counter)!= "/" && i!=7){
+			return "pieces invalid";
+		}
+		counter++;
+	}
+		console.log("hello");
+
+	counter--;
+	if(FEN.charAt(counter)!= " "){
+	console.log(counter+"  "+FEN.charAt(counter-2)+" "+FEN.charAt(counter));
+	return "too many pieces";}
+	counter++;
+
+	if(FEN.charAt(counter)=="w"){whiteToMove = true;}
+	else if(FEN.charAt(counter)=="b"){whiteToMove = false;}
+	else{return "white or black to move";}
+	counter+=2;
+
+	castlingAvailability = "";
+	while(FEN.charAt(counter)!=" "){
+		castlingAvailability+=FEN.charAt(counter);
+		counter++;
+	}
+	counter++;
+
+	if(FEN.charAt(counter)!="-"){enPassantSquare = "-";}
+	else{
+		enPassantSquare = FEN.charAt(counter)+FEN.charAt(counter+1);
+		counter++;
+	}
+	if(FEN.charAt(counter)!= " "){return "space after enPassantSquare";}
+	counter++;
+	
+	if(isNaN(parseInt(FEN.charAt(counter)))){return "invalid half move counter";}
+	else{halfMoveCounter = parseInt(FEN.charAt(counter));}
+	counter++;
+
+	if(FEN.charAt(counter)!=" "){return "space after half move counter";}
+	counter++;
+
+	if(isNaN(parseInt(FEN.charAt(counter)))){return "invalid full move number";}
+	else{fullMoveNumber = parseInt(FEN.charAt(counter));}
+	populateBoard();
+	console.log(board);
+	console.log(whiteToMove);
+	console.log(enPassantSquare);
+	console.log(castlingAvailability);
+	console.log(halfMoveCounter);
+	console.log(fullMoveNumber);
+	return "hurrah!";
 }
 squareClicked = function(rank,file){
 	switch(clickState){
@@ -673,5 +823,11 @@ squareClicked = function(rank,file){
 			break;
 	}
 }
+populateBoard = function(){
+	for(var i =0; i<8; i++){
+		for(var j = 0; j<8; j++){
+			document.getElementById(easyConvert[i][j]).innerHTML = board[i][j];		
+		}
+	}
+}
 setUpStandardGame();
-console.log(generateFEN());

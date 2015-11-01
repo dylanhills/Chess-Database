@@ -82,6 +82,15 @@
 			<div class = "square light" id = "h1" onclick = "squareClicked(7,7)"></div>
 		</div>
 	</div>
+	<div class = "wrapper">
+		<button onclick="generateFEN()">Print FEN</button>
+		<br>
+		<br>
+		<br>
+		FEN: <input id = "FENInput" type="text" name="FEN"><br>
+		<button id = "FENButton" onclick = "inputFENHelper()">Input FEN</button>
+		<div id = "FENOutput"></div>
+	</div>
 </body>
 <head>
 <script type = "text/javascript" src = "chess.js"></script>
