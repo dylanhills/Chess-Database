@@ -1,3 +1,5 @@
+
+
 var selectedSquare = [0,0];
 var clickState = "select";
 var letterArray = ["a","b","c","d","e","f","g","h"];
@@ -831,3 +833,13 @@ populateBoard = function(){
 	}
 }
 setUpStandardGame();
+
+$(function() {
+    $(".tabs").click(function() {
+        var tab = $(this).attr("data-tab");
+        $(".tabContent").hide();
+        $('.tabs').removeClass('active');
+        $(this).addClass('active');
+        $("#" + tab).show();
+    });    
+});
