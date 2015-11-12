@@ -1,16 +1,16 @@
-
-
 var selectedSquare = [0,0];
 var clickState = "select";
 var letterArray = ["a","b","c","d","e","f","g","h"];
 var easyConvert = new Array(8);
 var board = new Array(8);
-var legalMoves = [[]];
 var castlingAvailability;
 var enPassantSquare;
 var halfMoveCounter;
 var fullMoveNumber;
 var whiteToMove;
+var legalMoves = new Object();
+
+
 for(var i = 0; i<8; i++){
 	board[i] = new Array(8);
 	easyConvert[i] = new Array(8);
@@ -142,36 +142,60 @@ movePiece = function(rank,file){
 	setSquare(rank,file,board[selectedSquare[0]][selectedSquare[1]]);
 	setSquare(selectedSquare[0],selectedSquare[1],"");
 }
-generateLegalMoves = function(rank,file){
-	var piece = board[rank][file];
+generateLegalMoves = function(){
+	myLegalMoves = new Object();
+	whiteToMove = false;
+	for(var i = 0; i<8; i++){
+		for(var j = 0; j<8; j++){
+			if(board[i][j] != ""){
+				if(whiteToMove){
+					if(board[i][j].charAt(0).toUpperCase() == board[i][j]){
+						legalMoves[easyConvert[i][j]] = generateMoveHelper(i,j,board[i][j]);
+					}
+				}
+				else{//black to move
+					if(board[i][j].charAt(0).toLowerCase() == board[i][j]){
+						legalMoves[easyConvert[i][j]] = generateMoveHelper(i,j,board[i][j]);
+					}
+				}
+			}
+		}
+	}
+	console.log(legalMoves);
+}
+isUpperCase = function(char){
+	if(char == ""){return false;}
+	return char == char.toUpperCase();
+}
+generateMoveHelper = function(rank,file,piece){
 	lM = [];
 	switch(piece){
 		case "P":
 			if(board[rank-1][file] == ""){
-				lM.push([rank-1,file]);
+				lM.push(easyConvert[rank-1][file]);
 				if(rank == 6 && board[rank-2][file] == ""){
-					lM.push([rank-2,file]);}}
-			if(file>0 && board[rank-1][file-1].charAt(0) == "b"){
-				lM.push([rank-1,file-1]);}
-			if(file<7 && board[rank-1][file+1].charAt(0) == "b"){
-				lM.push([rank-1,file+1]);}
+					lM.push(easyConvert[rank-2][file]);}}
+			if(file>0 && !isUpperCase(board[rank-1][file-1].charAt(0))){
+				lM.push(easyConvert[rank-1][file-1]);}
+			if(file<7 && !isUpperCase(board[rank-1][file+1].charAt(0))){
+				lM.push(easyConvert[rank-1][file+1]);}
 			break;
 		case "p":
 			if(board[rank+1][file] == ""){
-				lM.push([rank+1,file]);
+				lM.push(easyConvert[rank+1][file]);
 				if(rank == 1 && board[rank+2][file] == ""){
-					lM.push([rank+2,file]);}}
-			if(file>0 && board[rank+1][file-1].charAt(0) == "w"){
-				lM.push([rank+1,file-1]);}
-			if(file<7 && board[rank+1][file+1].charAt(0) == "w"){
-				lM.push([rank+1,file+1]);}
+					lM.push(easyConvert[rank+2][file]);}}
+			if(file>0 && isUpperCase(board[rank+1][file-1].charAt(0))){
+				lM.push(easyConvert[rank+1][file-1]);}
+			if(file<7 && isUpperCase(board[rank+1][file+1].charAt(0))){
+				lM.push(easyConvert[rank+1][file+1]);}
 			break;
 		case "r":
 			for(var i = rank+1; i<8; i++){
 				if(board[i][file] == ""){
-					lM.push([i,file]);
-				}else if(board[i][file].charAt(0) == "w"){
-					lM.push([i,file]);
+					lM.push(easyConvert[i][file]);
+				}else if(isUpperCase(board[i][file].charAt(0))){
+					lM.push(easyConvert[i][file]);
 					i = 8;
 				}else{
 					i = 8;
@@ -179,9 +203,9 @@ generateLegalMoves = function(rank,file){
 			}
 			for(var i = rank-1; i>-1; i--){
 				if(board[i][file] == ""){
-					lM.push([i,file]);
-				}else if(board[i][file].charAt(0) == "w"){
-					lM.push([i,file]);
+					lM.push(easyConvert[i][file]);
+				}else if(isUpperCase(board[i][file].charAt(0))){
+					lM.push(easyConvert[i][file]);
 					i = -1;
 				}else{
 					i = -1;
@@ -189,9 +213,9 @@ generateLegalMoves = function(rank,file){
 			}
 			for(var i = file+1; i<8; i++){
 				if(board[rank][i] == ""){
-					lM.push([rank,i]);
-				}else if(board[rank][i].charAt(0) == "w"){
-					lM.push([rank,i]);
+					lM.push(easyConvert[rank][i]);
+				}else if(isUpperCase(board[rank][i].charAt(0))){
+					lM.push(easyConvert[rank][i]);
 					i = 8;
 				}else{
 					i = 8;
@@ -199,15 +223,16 @@ generateLegalMoves = function(rank,file){
 			}
 			for(var i = file-1; i>-1; i--){
 				if(board[rank][i] == ""){
-					lM.push([rank,i]);
-				}else if(board[rank][i].charAt(0) == "w"){
-					lM.push([rank,i]);
+					lM.push(easyConvert[rank][i]);
+				}else if(isUpperCase(board[rank][i].charAt(0))){
+					lM.push(easyConvert[rank][i]);
 					i = -1;
 				}else{
 					i = -1;
 				}
 			}
 			break;
+			/*
 		case "R":
 			for(var i = rank+1; i<8; i++){
 				if(board[i][file] == ""){
@@ -686,6 +711,7 @@ generateLegalMoves = function(rank,file){
 				lM.push([7,2]);
 			}
 			break;
+			*/
 		default:
 			break;
 	}
@@ -832,6 +858,10 @@ populateBoard = function(){
 		}
 	}
 }
+console.log(isUpperCase("h"));
+console.log(isUpperCase("S"));
+console.log(isUpperCase(""));
+
 setUpStandardGame();
 
 $(function() {
