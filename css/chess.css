@@ -1,0 +1,54 @@
+
+
+.wrapper{
+	float:left;
+}
+#chessBoard{
+	width: 480px;
+}
+.rank{
+	float:left;
+}
+.square{
+	width: 60px;
+	height: 60px;
+	margin: auto;
+	float: left;
+}
+.light{
+	background-color: #FFFF66;
+}
+.dark{
+	background-color: #CC9900;
+}
+.selected{
+	background-color: yellow;
+}
+.legalMove{
+	background-color: blue;
+}
+
+.horizontal-center {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    -moz-transform: translateX(-50%); /* For mozilla support */
+    -webkit-transform: translateX(-50%); /* For safari support */
+    -ms-transform: translateX(-50%); /* For IE support */
+    -o-transform: translateX(-50%); /* For opera support */
+}
+
+.tabContent {
+    display:none;
+}
+
+a, a:active, a:focus, 
+button, button:focus, button:active, 
+.btn, .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn.focus:active, .btn.active.focus {
+    outline: none;
+    outline: 0;
+}
+
+input::-moz-focus-inner {
+    border: 0;
+}
