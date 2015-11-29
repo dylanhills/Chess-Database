@@ -5,7 +5,7 @@ $(function() {
         $('.tabs').removeClass('active');
         $(this).addClass('active');
         $("#" + tab).show();
-    });    
+    });
 });
 
 var init = function() {
@@ -41,7 +41,7 @@ var init = function() {
 	  updateStatus();
 	};
 
-	// update the board position after the piece snap 
+	// update the board position after the piece snap
 	// for castling, en passant, pawn promotion
 	var onSnapEnd = function() {
 	  board.position(game.fen());
@@ -94,4 +94,18 @@ var init = function() {
 };
 $(document).ready(init);
 
-
+var snarg = function() {
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'doThing',
+      a : 1,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
