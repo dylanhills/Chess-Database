@@ -194,8 +194,6 @@ var getGameJS = function() {
     url : "db_funcs.php",
     data : {
       action : 'doThing',
-      a : 1,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -211,7 +209,6 @@ var getGameByIDJS = function() {
     data : {
       action : 'getGameByID',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -227,7 +224,6 @@ var getPlayerByIDJS = function() {
     data : {
       action : 'getPlayerByID',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -243,7 +239,6 @@ var getOpeningByIDJS = function() {
     data : {
       action : 'getOpeningByID',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -259,7 +254,6 @@ var getFENByIDJS = function() {
     data : {
       action : 'getFENByID',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -275,7 +269,6 @@ var getTournamentByIDJS = function() {
     data : {
       action : 'getTournamentByID',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -291,7 +284,6 @@ var getFENByIDJS = function() {
     data : {
       action : 'getFENByID',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -307,7 +299,6 @@ var getAllGamesWithSameOpeningJS = function() {
     data : {
       action : 'getAllGamesWithSameOpening',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -323,7 +314,6 @@ var getAllGamesWithAFENJS = function() {
     data : {
       action : 'getAllGamesWithAFEN',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -340,7 +330,6 @@ var getAllGamesPlayedByAPlayerJS = function() {
     data : {
       action : 'getAllGamesPlayedByAPlayer',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -356,7 +345,6 @@ var getAllGamesWithSameWhitePawnStructJS = function() {
     data : {
       action : 'getAllGamesWithSameWhitePawnStruct',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {
@@ -372,7 +360,6 @@ var getAllGamesWithSameBlackPawnStructJS = function() {
     data : {
       action : 'getAllGamesWithSameBlackPawnStruct',
       a : myNumber,
-      b : 2
     },
     type : 'post',
     success : function(output) {

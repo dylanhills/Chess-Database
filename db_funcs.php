@@ -43,13 +43,13 @@ function getPlayerByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "Select * From Player Where PlayerId = $arg";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  echo 'Total results: ' . $result->num_rows . "\n";
+  // echo 'Total results: ' . $result->num_rows . "\n";
 
   while($row = $result->fetch_assoc()){
       echo json_encode($row);
@@ -61,13 +61,13 @@ function getOpeningByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "Select * From Opening Where OpeningId = $arg";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  echo 'Total results: ' . $result->num_rows . "\n";
+  // echo 'Total results: ' . $result->num_rows . "\n";
 
   while($row = $result->fetch_assoc()){
       echo json_encode($row);
@@ -79,13 +79,13 @@ function getFENByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "Select * From FEN Where FENId = $arg";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  echo 'Total results: ' . $result->num_rows . "\n";
+  // echo 'Total results: ' . $result->num_rows . "\n";
 
   while($row = $result->fetch_assoc()){
       echo json_encode($row);
@@ -97,13 +97,13 @@ function getTournamentByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT * From Tournament Where TournamentId = $arg";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  echo 'Total results: ' . $result->num_rows . "\n";
+  // echo 'Total results: ' . $result->num_rows . "\n";
 
   while($row = $result->fetch_assoc()){
       echo json_encode($row);
@@ -115,7 +115,7 @@ function getAllGamesWithSameOpening($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT * FROM gameopening where openingid in ( Select openingid from gameopening where gameid = $arg)";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
@@ -135,7 +135,7 @@ function getAllGamesWithAFEN($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT gameid FROM gamefen where fenid = $arg";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
@@ -152,7 +152,7 @@ function getAllGamesPlayedByAPlayer($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT gameid FROM game where WhitePlayer = $arg or BlackPlayer = $arg";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
@@ -172,7 +172,7 @@ function getAllGamesWithSameWhitePawnStruct($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT Distinct gameid FROM gamefen where fenid in (SELECT fenid FROM fen Where PawnStructW = (Select PawnStructW from fen where fenid = $arg))";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
@@ -192,7 +192,7 @@ function getAllGamesWithSameBlackPawnStruct($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT Distinct gameid FROM gamefen where fenid in (SELECT fenid FROM fen Where PawnStructW = (Select PawnStructB from fen where fenid = $arg))";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
