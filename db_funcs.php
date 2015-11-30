@@ -25,17 +25,17 @@ function getGameByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "Select * From Game Where GameId = $arg";
-  echo "Executing query: " . $sql . "\n";
+  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  echo 'Total results: ' . $result->num_rows . "\n";
+  // echo 'Total results: ' . $result->num_rows . "\n";
 
   while($row = $result->fetch_assoc()){
       echo json_encode($row);
-      echo "\n";
+      // echo "\n";
   }
   $result->free();
 }

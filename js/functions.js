@@ -178,6 +178,17 @@ var boardSetupFEN = function(fen) {
 };
 $(document).ready(init);
 
+var divOutput = function(output) {
+  try {
+    var x = JSON.parse(output);
+    console.log(x);
+    $("#dbOut").html(JSON.stringify(x, null, '\t'));
+  } catch (e) {
+    console.log(output);
+    console.log(e);
+  }
+}
+
 var getGameJS = function() {
   $.ajax({
     url : "db_funcs.php",
@@ -205,7 +216,7 @@ var getGameByIDJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -221,7 +232,7 @@ var getPlayerByIDJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -237,7 +248,7 @@ var getOpeningByIDJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -253,7 +264,7 @@ var getFENByIDJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -269,7 +280,7 @@ var getTournamentByIDJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -285,7 +296,7 @@ var getFENByIDJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -301,7 +312,7 @@ var getAllGamesWithSameOpeningJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -317,7 +328,7 @@ var getAllGamesWithAFENJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
       populateMoves(output);
     }
   })
@@ -334,7 +345,7 @@ var getAllGamesPlayedByAPlayerJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -350,7 +361,7 @@ var getAllGamesWithSameWhitePawnStructJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
@@ -366,7 +377,7 @@ var getAllGamesWithSameBlackPawnStructJS = function() {
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      console.log(output);
+      divOutput(output);
     }
   })
 }
