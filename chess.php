@@ -32,12 +32,14 @@
 		</ul>
 		<div id="tools" class="tabContent" >
 			<div class = "wrapper">
-				<button onclick="snarg()" class="btn btn-default">Ayo</button>
+				<button onclick="getGameJS()" class="btn btn-default">Ayo</button>
 				<br>
 				<br>
 				<br>
 				<input id = "FENInput" type="text" name="FEN"> &nbsp;
-				<button id = "FENButton" onclick = "inputFENHelper()" class="btn btn-default">Yeee</button>
+				<button id = "FENButton" onclick = "getGameByIDJS()" class="btn btn-default">Yeee</button>
+				<input id = "GameInput" type = "text" name = "Game"> &nbsp;
+				<button id = "GameButton" onclick = "getGameByIDJS(500)" class="btn btn-default">Get Game By ID</button>
 			<div id = "FENOutput"></div>
 			</div>
 		</div>

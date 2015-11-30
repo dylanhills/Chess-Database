@@ -94,12 +94,28 @@ var init = function() {
 };
 $(document).ready(init);
 
-var snarg = function() {
+var getGameJS = function() {
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'doThing',
       a : 1,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getGameByIDJS = function($arg) {
+  var myNumber = document.getElementById("GameInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getGameByID',
+      a : myNumber,
       b : 2
     },
     type : 'post',
