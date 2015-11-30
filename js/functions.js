@@ -237,3 +237,51 @@ var getAllGamesWithAFENJS = function() {
     }
   })
 }
+var getAllGamesPlayedByAPlayerJS = function() {
+  var myNumber = document.getElementById("PlayerGameInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getAllGamesPlayedByAPlayer',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getAllGamesWithSameWhitePawnStructJS = function() {
+  var myNumber = document.getElementById("WhitePawnStructInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getAllGamesWithSameWhitePawnStruct',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getAllGamesWithSameBlackPawnStructJS = function() {
+  var myNumber = document.getElementById("BlackPawnStructInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getAllGamesWithSameBlackPawnStruct',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}

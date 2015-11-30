@@ -53,7 +53,15 @@
 			
 				<input id = "GameFENInput" type = "text" name = "GameFEN"> &nbsp;	
 				<button id = "GameFENButton" onclick = "getAllGamesWithAFENJS()" class="btn btn-default">Get All Games With a FEN</button>
-			
+							
+				<input id = "PlayerGameInput" type = "text" name = "PlayerGame"> &nbsp;	
+				<button id = "PlayerGameButton" onclick = "getAllGamesPlayedByAPlayerJS()" class="btn btn-default">Get All Games Played by a Player</button>
+
+				<input id = "WhitePawnStructInput" type = "text" name = "WhitePawnStruct"> &nbsp;	
+				<button id = "WhitePawnStructButton" onclick = "getAllGamesWithSameWhitePawnStructJS()" class="btn btn-default">Get All Games That Reach This White Pawn Struct</button>
+
+				<input id = "BlackPawnStructInput" type = "text" name = "BlackPawnStruct"> &nbsp;	
+				<button id = "BlackPawnStructButton" onclick = "getAllGamesWithSameBlackPawnStructJS()" class="btn btn-default">Get All Games That Reach This Black Pawn Struct</button>
 			<div id = "FENOutput"></div>
 			</div>
 		</div>

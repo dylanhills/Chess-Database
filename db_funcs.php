@@ -15,6 +15,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
         case 'getTournamentByID' : getTournamentByID($args["a"]); break;
         case 'getAllGamesWithSameOpening' : getAllGamesWithSameOpening($args["a"]); break;
         case 'getAllGamesWithAFEN' : getAllGamesWithAFEN($args["a"]); break;
+        case 'getAllGamesPlayedByAPlayer' : getAllGamesPlayedByAPlayer($args["a"]); break;
+        case 'getAllGamesWithSameWhitePawnStruct' : getAllGamesWithSameWhitePawnStruct($args["a"]); break;
+        case 'getAllGamesWithSameBlackPawnStruct' : getAllGamesWithSameBlackPawnStruct($args["a"]); break;
+
     }
 }
 
@@ -153,6 +157,68 @@ function getAllGamesWithAFEN($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT gameid FROM gamefen where fenid = $arg";
+  echo "Executing query: " . $sql . "\n";
+
+  if(!$result = $db->query($sql)){
+    echo $db->error;
+      die('There was an error running the query [' . $db->error . ']');
+  }
+  //echo 'Total results: ' . $result->num_rows . "\n";
+
+  while($row = $result->fetch_assoc()){
+      echo json_encode($row);
+      //$openingid = $row["OpeningId"];
+      echo "\n";
+  }
+  //echo $openingid;
+  $result->free();
+}
+
+function getAllGamesPlayedByAPlayer($arg){
+  $db = new mysqli("localhost", "root", "toor", "chess");
+
+  $sql = "SELECT gameid FROM game where WhitePlayer = $arg or BlackPlayer = $arg";
+  echo "Executing query: " . $sql . "\n";
+
+  if(!$result = $db->query($sql)){
+    echo $db->error;
+      die('There was an error running the query [' . $db->error . ']');
+  }
+  //echo 'Total results: ' . $result->num_rows . "\n";
+
+  while($row = $result->fetch_assoc()){
+      echo json_encode($row);
+      //$openingid = $row["OpeningId"];
+      echo "\n";
+  }
+  //echo $openingid;
+  $result->free();
+}
+function getAllGamesWithSameWhitePawnStruct($arg){
+  $db = new mysqli("localhost", "root", "toor", "chess");
+
+  $sql = "SELECT Distinct gameid FROM gamefen where fenid in (SELECT fenid FROM fen Where PawnStructW = (Select PawnStructW from fen where fenid = $arg))";
+  echo "Executing query: " . $sql . "\n";
+
+  if(!$result = $db->query($sql)){
+    echo $db->error;
+      die('There was an error running the query [' . $db->error . ']');
+  }
+  //echo 'Total results: ' . $result->num_rows . "\n";
+
+  while($row = $result->fetch_assoc()){
+      echo json_encode($row);
+      //$openingid = $row["OpeningId"];
+      echo "\n";
+  }
+  //echo $openingid;
+  $result->free();
+}
+
+function getAllGamesWithSameBlackPawnStruct($arg){
+  $db = new mysqli("localhost", "root", "toor", "chess");
+
+  $sql = "SELECT Distinct gameid FROM gamefen where fenid in (SELECT fenid FROM fen Where PawnStructW = (Select PawnStructB from fen where fenid = $arg))";
   echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
