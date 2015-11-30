@@ -32,14 +32,28 @@
 		</ul>
 		<div id="tools" class="tabContent" >
 			<div class = "wrapper">
-				<button onclick="getGameJS()" class="btn btn-default">Ayo</button>
-				<br>
-				<br>
-				<br>
-				<input id = "FENInput" type="text" name="FEN"> &nbsp;
-				<button id = "FENButton" onclick = "getGameByIDJS()" class="btn btn-default">Yeee</button>
+				
 				<input id = "GameInput" type = "text" name = "Game"> &nbsp;
-				<button id = "GameButton" onclick = "getGameByIDJS(500)" class="btn btn-default">Get Game By ID</button>
+				<button id = "GameButton" onclick = "getGameByIDJS()" class="btn btn-default">Get Game By ID</button>
+				
+				<input id = "PlayerInput" type = "text" name = "Player"> &nbsp;
+				<button id = "PlayerButton" onclick = "getPlayerByIDJS()" class="btn btn-default">Get Player By ID</button>
+				
+				<input id = "OpeningInput" type = "text" name = "Opening"> &nbsp;
+				<button id = "OpeningButton" onclick = "getOpeningByIDJS()" class="btn btn-default">Get Opening By ID</button>
+				
+				<input id = "TournamentInput" type = "text" name = "Tournament"> &nbsp;
+				<button id = "TournamentButton" onclick = "getTournamentByIDJS()" class="btn btn-default">Get Tournament By ID</button>
+				
+				<input id = "FENInput" type = "text" name = "FEN"> &nbsp;	
+				<button id = "FENButton" onclick = "getFENByIDJS()" class="btn btn-default">Get FEN By ID</button>
+
+				<input id = "GameOpeningInput" type = "text" name = "GameOpening"> &nbsp;	
+				<button id = "GameOpeningButton" onclick = "getAllGamesWithSameOpeningJS()" class="btn btn-default">Get All Games With Same Opening</button>
+			
+				<input id = "GameFENInput" type = "text" name = "GameFEN"> &nbsp;	
+				<button id = "GameFENButton" onclick = "getAllGamesWithAFENJS()" class="btn btn-default">Get All Games With a FEN</button>
+			
 			<div id = "FENOutput"></div>
 			</div>
 		</div>

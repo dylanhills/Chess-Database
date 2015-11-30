@@ -109,12 +109,124 @@ var getGameJS = function() {
     }
   })
 }
-var getGameByIDJS = function($arg) {
+var getGameByIDJS = function() {
   var myNumber = document.getElementById("GameInput").value;
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'getGameByID',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getPlayerByIDJS = function() {
+  var myNumber = document.getElementById("PlayerInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getPlayerByID',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getOpeningByIDJS = function() {
+  var myNumber = document.getElementById("OpeningInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getOpeningByID',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getFENByIDJS = function() {
+  var myNumber = document.getElementById("FENInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getFENByID',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getTournamentByIDJS = function() {
+  var myNumber = document.getElementById("TournamentInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getTournamentByID',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getFENByIDJS = function() {
+  var myNumber = document.getElementById("FENInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getFENByID',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getAllGamesWithSameOpeningJS = function() {
+  var myNumber = document.getElementById("GameOpeningInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getAllGamesWithSameOpening',
+      a : myNumber,
+      b : 2
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      console.log(output);
+    }
+  })
+}
+var getAllGamesWithAFENJS = function() {
+  var myNumber = document.getElementById("GameFENInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getAllGamesWithAFEN',
       a : myNumber,
       b : 2
     },
