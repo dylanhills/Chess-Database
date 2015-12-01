@@ -186,8 +186,7 @@ var divOutput = function(output) {
     console.log(x);
     $("#dbOut").html(JSON.stringify(x, null, '\t'));
   } catch (e) {
-    console.log(output);
-    console.log(e);
+    $("#dbOut").html("Invalid input: \n" + output);
   }
 }
 
