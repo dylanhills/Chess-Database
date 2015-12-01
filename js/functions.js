@@ -180,6 +180,8 @@ $(document).ready(init);
 
 var divOutput = function(output) {
   try {
+    // var x = output.trim();
+    // x = JSON.parse(JSON.stringify(x));
     var x = JSON.parse(output);
     console.log(x);
     $("#dbOut").html(JSON.stringify(x, null, '\t'));

@@ -6,6 +6,7 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
       "a" => $_POST['a'],
       "b" => $_POST['b'],
     );
+    $db = new mysqli("localhost", "root", "toor", "chess");
     switch($action) {
         case 'getGameByID' : getGameByID($args["a"]); break;
         case 'getPlayerByID' : getPlayerByID($args["a"]); break;
@@ -25,187 +26,182 @@ function getGameByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "Select * From Game Where GameId = $arg";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  // echo 'Total results: ' . $result->num_rows . "\n";
 
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      // echo "\n";
+      $arr[] = $row;
   }
+  echo json_encode($arr);
   $result->free();
 }
 function getPlayerByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "Select * From Player Where PlayerId = $arg";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  // echo 'Total results: ' . $result->num_rows . "\n";
-
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      echo "\n";
+      $arr[] = $row;
   }
+  echo json_encode($arr);
   $result->free();
 }
 function getOpeningByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "Select * From Opening Where OpeningId = $arg";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  // echo 'Total results: ' . $result->num_rows . "\n";
 
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      echo "\n";
+      $arr[] = $row;
   }
+  echo json_encode($arr);
   $result->free();
 }
 function getFENByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "Select * From FEN Where FENId = $arg";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  // echo 'Total results: ' . $result->num_rows . "\n";
 
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      echo "\n";
+      $arr[] = $row;
   }
+  echo json_encode($arr);
   $result->free();
 }
 function getTournamentByID($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT * From Tournament Where TournamentId = $arg";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  // echo 'Total results: ' . $result->num_rows . "\n";
 
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      echo "\n";
+      $arr[] = $row;
   }
+  echo json_encode($arr);
   $result->free();
 }
 function getAllGamesWithSameOpening($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT * FROM gameopening where openingid in ( Select openingid from gameopening where gameid = $arg)";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  //echo 'Total results: ' . $result->num_rows . "\n";
 
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      $openingid = $row["OpeningId"];
-      echo "\n";
+      $arr[] = $row;
   }
-  echo $openingid;
+  echo json_encode($arr);
   $result->free();
 }
 function getAllGamesWithAFEN($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT gameid FROM gamefen where fenid = $arg";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  //echo 'Total results: ' . $result->num_rows . "\n";
+
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      echo "\n";
+      $arr[] = $row;
   }
+  echo json_encode($arr);
   $result->free();
 }
 function getAllGamesPlayedByAPlayer($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
-  $sql = "SELECT gameid FROM game where WhitePlayer = $arg or BlackPlayer = $arg";
-  // echo "Executing query: " . $sql . "\n";
+  $sql = "SELECT gameid FROM Game where WhitePlayer = $arg or BlackPlayer = $arg";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  //echo 'Total results: ' . $result->num_rows . "\n";
 
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      //$openingid = $row["OpeningId"];
-      echo "\n";
+      $arr[] = $row;
   }
-  //echo $openingid;
+  echo json_encode($arr);
+
   $result->free();
 }
 function getAllGamesWithSameWhitePawnStruct($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT Distinct gameid FROM gamefen where fenid in (SELECT fenid FROM fen Where PawnStructW = (Select PawnStructW from fen where fenid = $arg))";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  //echo 'Total results: ' . $result->num_rows . "\n";
 
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      //$openingid = $row["OpeningId"];
-      echo "\n";
+      $arr[] = $row;
   }
-  //echo $openingid;
+  echo json_encode($arr);
+
   $result->free();
 }
 function getAllGamesWithSameBlackPawnStruct($arg){
   $db = new mysqli("localhost", "root", "toor", "chess");
 
   $sql = "SELECT Distinct gameid FROM gamefen where fenid in (SELECT fenid FROM fen Where PawnStructW = (Select PawnStructB from fen where fenid = $arg))";
-  // echo "Executing query: " . $sql . "\n";
 
   if(!$result = $db->query($sql)){
     echo $db->error;
       die('There was an error running the query [' . $db->error . ']');
   }
-  //echo 'Total results: ' . $result->num_rows . "\n";
 
+  $arr = [];
+  $arr["num_rows"] = $result->num_rows;
   while($row = $result->fetch_assoc()){
-      echo json_encode($row);
-      //$openingid = $row["OpeningId"];
-      echo "\n";
+      $arr[] = $row;
   }
-  //echo $openingid;
+  echo json_encode($arr);
+
   $result->free();
 }
  ?>
