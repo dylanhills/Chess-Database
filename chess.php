@@ -68,6 +68,9 @@
 						<br>
 						<input id = "MovesInput" type = "text" name = "Moves"> &nbsp;
 						<button id = "MovesButton" onclick = "getMovesOfGameJS()" class="btn btn-default">Get All Moves of This Game</button>
+						<br>
+						<input id = "NextMovesInput" type = "text" name = "Moves"> &nbsp;
+						<button id = "NextMovesButton" onclick = "getNextMovesJS()" class="btn btn-default">Get Common Next Moves</button>
 
 
 					<div id = "FENOutput"></div>

@@ -2,9 +2,6 @@
 
 if(isset($_POST['action']) && !empty($_POST['action'])) {
     $action = $_POST['action'];
-    $args = array(
-      "a" => $_POST['a'],
-    );
     $db = new mysqli("localhost", "root", "toor", "chess");
 
     $a = $_POST['a'];
@@ -28,7 +25,6 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
           break;
         case 'getTournamentByID' :
           $sql = "SELECT * From Tournament Where TournamentId = $a";
-          $sql = str_replace("%s", $a, $sql);
           break;
         case 'getAllGamesWithSameOpening' :
           $sql = "SELECT * FROM gameopening where OpeningId in ( Select OpeningId from gameopening where GameId = $a)";
@@ -48,6 +44,19 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
         case 'getMovesOfGame' :
           $sql = "SELECT * FROM gamefen AS g LEFT OUTER JOIN (  SELECT * FROM FEN ) AS f ON g.FENId = f.FENId WHERE g.GameId = $a ORDER BY f.FullMoveCounter ASC, f.PlayerToMove DESC";
           break;
+        case 'getNextMoves' :
+          //$a is fen string, $b is next player to move
+          $b = $_POST['b'];
+          // $boardRows = explode("/", $a);
+          $a = str_replace("/", "%", $a);
+          $sql = "SELECT * FROM gamefen AS g
+                  LEFT OUTER JOIN ( SELECT * FROM FEN ) AS f
+                  ON g.FENId = f.FENId
+                  WHERE f.PiecePlacement LIKE " . "\"$a\"";
+          // $sql = str_replace("/", "\/", $sql);
+          // $sql = mysqli_real_escape_string($db, $sql);
+            // echo $sql; return;
+          break;
 
     }
 
@@ -59,6 +68,7 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 
     $arr = [];
     $arr["num_rows"] = $result->num_rows;
+    $arr["mysql_query"] = $sql;
     while($row = $result->fetch_assoc()){
         $arr[] = $row;
     }

@@ -179,6 +179,7 @@ var boardSetupFEN = function(fen) {
 $(document).ready(init);
 
 var divOutput = function(output) {
+  console.log(output);
   try {
     var x = JSON.parse(output);
     console.log(x);
@@ -386,6 +387,22 @@ var getMovesOfGameJS = function() {
     }
   })
 }
+var getNextMovesJS = function() {
+  var fen = $('#fen').text().split(" ");
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getNextMoves',
+      a : fen[0],
+      b : fen[1]
+    },
+    type : 'post',
+    success : function(output) {
+      divOutput(output);
+    }
+  })
+}
+
 
 var populateMoves = function(str){
 	var myvar = "rnbqk2r/pp2ppbp/2p2np1/3p4/3P4/5NP1/PPP1PPBP/RNBQ1RK1";
