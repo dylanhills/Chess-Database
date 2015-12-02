@@ -362,10 +362,9 @@ var getGamesWithSameFENJS = function() {
   })
 }
 
-<<<<<<< Updated upstream
 var getNextMovesJS = function() {
-  console.log("fuck");
   var fen = $('#fen').text().split(" ");
+  $("#openingsOut").html("Loading...");
   $.ajax({
     url : "db_funcs.php",
     data : {
@@ -375,19 +374,37 @@ var getNextMovesJS = function() {
     },
     type : 'post',
     success : function(output) {
-      divOutput(output);
+      try {
+        var x = JSON.parse(output);
+        //console.log(x);
+        if(x.num_rows == 0) {
+          $("#openingsOut").html("No results!");
+        } else {
+          var total = 0;
+          var num = 0;
+          var out = "";
+          for(i = 0; i < x.num_rows; i++) {
+            if(x[i].c) {
+              num = num + 1;
+              total = total + x[i].c;
+              out = out + "<p>" + x[i].c + " - " + x[i].PiecePlacement + "</p>";
+            }
+          }
+
+          // $("#openingsOut").html(JSON.stringify(x, null, 1));
+          $("#openingsOut").html(out);
+        }
+      } catch (e) {
+        $("#openingsOut").html("Invalid input: \n" + output);
+      }
     }
   })
 }
 
-var populateCurrentGameJS = function() {
-  var myNumber = document.getElementById("PopulateGameInput").value;
-=======
 var populateCurrentGameJS = function(gameID) {
   if(!gameID){
     gameID = document.getElementById("PopulateGameInput").value;
   }
->>>>>>> Stashed changes
   var myvar = "";
   var myText = "";
   $.ajax({
@@ -438,12 +455,8 @@ var displayPlayerInfo = function(playerID,gameId){
     myText = myText+"<br>Game: <a onClick = 'displayGameInfo("+gameId+");'style='cursor: pointer; cursor: hand;''>Game</a>";
     myText = myText+ "</p>";
     document.getElementById("displayInfo").innerHTML = myText;
-<<<<<<< Updated upstream
     console.log(myText);
   });
-=======
-  });  
->>>>>>> Stashed changes
 }
 var displayOpeningInfo = function(gameId){
   var myText = "";
@@ -521,7 +534,6 @@ var generateNextMoveJS = function(fenID,moveNumber,playerToMove){
     }
   })
 }
-<<<<<<< Updated upstream
 
 $("#startPositionBtn").click(function() {
   init();
@@ -557,5 +569,3 @@ var showAllNextMovesJS = function() {
       i++;
     }
 }
-=======
->>>>>>> Stashed changes

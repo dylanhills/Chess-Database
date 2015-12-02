@@ -73,14 +73,17 @@
 					<div id = "FENOutput"></div>
 					</div>
 				</div>
-				<div id="players" class="tabContent">
-					<p>whaaat</p>
 				<div id="GameInfo" class="tabContent">
 					<div id = "displayInfo"></div>
 				</div>
 				<div id="openings" class="tabContent" >
 					<button id = "getOpenings" onclick = "getOpeningsJS()" class="btn btn-default">Get Related Openings</button>
 					<button id = "GameOpeningButton" onclick = "getAllGamesWithSameOpeningJS()" class="btn btn-default">Get All Games With Same Opening</button>
+					<br><br>
+					<button id = "NextMovesButton" onclick = "getNextMovesJS()" class="btn btn-default">Get Common Next Moves</button>
+					<pre id = "openingsOut">
+
+					</pre>
 				</div>
 			</div>
 		</div>
