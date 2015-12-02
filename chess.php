@@ -73,8 +73,6 @@
 					<div id = "FENOutput"></div>
 					</div>
 				</div>
-				<div id="players" class="tabContent">
-					<p>whaaat</p>
 				<div id="GameInfo" class="tabContent">
 					<div id = "displayInfo"></div>
 				</div>

@@ -28,7 +28,8 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
           break;
         case 'getAllGamesWithSameOpening' :
           $a = "\"" . $a . "%" . "\"";
-          $sql = "SELECT o.OpeningId, o.Name, o.Moves, g.GameId FROM opening as o left outer join gameopening as g on o.OpeningId = g.OpeningId WHERE o.Moves LIKE $a";
+          //$sql = "SELECT o.OpeningId, o.Name, o.Moves, g.GameId FROM opening as o left outer join gameopening as g on o.OpeningId = g.OpeningId WHERE o.Moves LIKE $a";
+          $sql = "SELECT Distinct * FROM gameopening Where OpeningId = $a";
           break;
         case 'getAllOpeningsOfAGame':
           $sql = "SELECT * FROM opening where OpeningId in ( Select OpeningId from gameopening where GameId = $a)";
