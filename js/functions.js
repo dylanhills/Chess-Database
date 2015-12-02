@@ -1,3 +1,6 @@
+var currentGameFENS = [];
+var currentMoveNumber = -1;
+
 $(function() {
     $(".tabs").click(function() {
         var tab = $(this).attr("data-tab");
@@ -7,7 +10,6 @@ $(function() {
         $("#" + tab).show();
     });
 });
-
 var init = function() {
 	$("#tools").show()
 	var board = ChessBoard('board', 'start');
@@ -90,7 +92,6 @@ var init = function() {
 	board = ChessBoard('board', cfg);
 
 	updateStatus();
-
 };
 var boardSetupFEN = function(fen) {
 	$("#tools").show()
@@ -172,9 +173,6 @@ var boardSetupFEN = function(fen) {
 	  onSnapEnd: onSnapEnd
 	};
 	board = ChessBoard('board', cfg);
-
-//	updateStatus();
-
 };
 $(document).ready(init);
 
@@ -387,12 +385,13 @@ var getMovesOfGameJS = function() {
     }
   })
 }
-var getNextMovesJS = function() {
+
+var getGamesWithSameFENJS = function() {
   var fen = $('#fen').text().split(" ");
   $.ajax({
     url : "db_funcs.php",
     data : {
-      action : 'getNextMoves',
+      action : 'getGamesWithSameFEN',
       a : fen[0],
       b : fen[1]
     },
@@ -403,9 +402,62 @@ var getNextMovesJS = function() {
   })
 }
 
-
-var populateMoves = function(str){
-	var myvar = "rnbqk2r/pp2ppbp/2p2np1/3p4/3P4/5NP1/PPP1PPBP/RNBQ1RK1";
-	myText = '<a onClick="boardSetupFEN(\''+myvar+'\')" style="cursor: pointer; cursor: hand;">*click here*</a>'
-	document.getElementById("availNextMoves").innerHTML = myText;
+var populateCurrentGameJS = function() {
+  var myNumber = document.getElementById("PopulateGameInput").value;
+  var myvar = "";
+  var myText = "";
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getMovesOfGame',
+      a : myNumber,
+    },
+    type : 'post',
+    success : function(output) {
+      console.log(output);
+      //everything echo'd in the doThing function is console log'd
+      divOutput(output);
+      myvar = JSON.parse(output);
+      var i = 0;
+      currentMoveNumber = 0;
+      while(i<myvar.num_rows){
+        currentGameFENS[i] = myvar[i].PiecePlacement;
+        //myText = myText + '<a onClick="boardSetupFEN(\''+myvar[i].PiecePlacement+'\')" style="cursor: pointer; cursor: hand;">move '+i+'</a><br>'
+        i++;
+      }
+      //document.getElementById('availNextMoves').innerHTML = myText;
+    }
+  })
+}
+var moveForwardInGameJS = function(){
+  if(currentMoveNumber+1<currentGameFENS.length){
+    currentMoveNumber++;
+    boardSetupFEN(currentGameFENS[currentMoveNumber]);
+  }
+}
+var moveBackwardsInGameJS = function(){
+  if(currentMoveNumber-1>-1){
+      currentMoveNumber--;
+    boardSetupFEN(currentGameFENS[currentMoveNumber]);
+  }
+}
+var generateNextMoveJS = function(){
+  var myNumber = document.getElementById("GenerateNextMoveInput").value;
+  var moveNumber = 3;
+  var playerToMove = "b";
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getNextMoveFromGame',
+      a : myNumber,
+      b : playerToMove,
+      c : moveNumber
+    },
+    type : 'post',
+    success : function(output) {
+      console.log(output);
+      //everything echo'd in the doThing function is console log'd
+      divOutput(output);
+    }
+  })
 }
