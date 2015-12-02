@@ -49,26 +49,13 @@
 						<input id = "OpeningInput" type = "text" name = "Opening"> &nbsp;
 						<button id = "OpeningButton" onclick = "getOpeningByIDJS()" class="btn btn-default">Get Opening By ID</button>
 						<br>
-						<input id = "TournamentInput" type = "text" name = "Tournament"> &nbsp;
-						<button id = "TournamentButton" onclick = "getTournamentByIDJS()" class="btn btn-default">Get Tournament By ID</button>
-						<br>
-						<input id = "PlayerGameInput" type = "text" name = "PlayerGame"> &nbsp;
-						<button id = "PlayerGameButton" onclick = "getAllGamesPlayedByAPlayerJS()" class="btn btn-default">Get All Games Played by a Player</button>
-						<br>
-						<input id = "WhitePawnStructInput" type = "text" name = "WhitePawnStruct"> &nbsp;
-						<button id = "WhitePawnStructButton" onclick = "getAllGamesWithSameWhitePawnStructJS()" class="btn btn-default">Get All Games That Reach This White Pawn Struct</button>
-						<br>
-						<input id = "BlackPawnStructInput" type = "text" name = "BlackPawnStruct"> &nbsp;
-						<button id = "BlackPawnStructButton" onclick = "getAllGamesWithSameBlackPawnStructJS()" class="btn btn-default">Get All Games That Reach This Black Pawn Struct</button>
-						<br>
-						<button id = "GamesWithSameFEN" onclick = "getGamesWithSameFENJS()" class="btn btn-default">Get Games with the Same FEN</button>
-						<br>
-						<button id = "NextMovesButton" onclick = "getNextMovesJS()" class="btn btn-default">Get Common Next Moves</button>
 						<input id = "PopulateGameInput" type = "text" name = "GameMoves"> &nbsp;
 						<button id = "PopulateGameButton" onclick = "populateCurrentGameJS()" class="btn btn-default">Follow a game</button>
 
 						<input id = "ShowAllNextMovesInput" type = "text" name = "ShowAllNextMoves"> &nbsp;
 						<button id = "ShowAllNextMovesButton" onclick = "showAllNextMovesJS()" class="btn btn-default">ShowAllNextMoves</button>
+						<br>
+						<button id = "NextMovesButton" onclick = "getNextMovesJS()" class="btn btn-default">Get Common Next Moves</button>
 
 					<div id = "FENOutput"></div>
 					</div>

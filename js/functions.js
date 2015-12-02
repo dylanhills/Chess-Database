@@ -452,6 +452,7 @@ var displayPlayerInfo = function(playerID,gameId){
     myText = myText+"<br>Game: <a onClick = 'displayGameInfo("+gameId+");'style='cursor: pointer; cursor: hand;''>Game</a>";
     myText = myText+ "</p>";
     document.getElementById("displayInfo").innerHTML = myText;
+  })
 }
 var displayOpeningInfo = function(gameId){
   var myText = "";
