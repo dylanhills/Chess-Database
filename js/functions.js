@@ -1,6 +1,13 @@
 var currentGameFENS = [];
 var currentMoveNumber = -1;
-
+var currentGameID = 1700;
+var currentFENID = 32099;
+var availNextMoves = [];
+var currentFEN = null;
+var games = [];
+var currentPlayer = "";
+var currentGame = "";
+var openings = [];
 $(function() {
     $(".tabs").click(function() {
         var tab = $(this).attr("data-tab");
@@ -177,7 +184,7 @@ var boardSetupFEN = function(fen) {
 $(document).ready(init);
 
 var divOutput = function(output) {
-  console.log(output);
+  //console.log(output);
   try {
     var x = JSON.parse(output);
     console.log(x);
@@ -190,47 +197,33 @@ var divOutput = function(output) {
     $("#dbOut").html("Invalid input: \n" + output);
   }
 }
-
-var getGameJS = function() {
-  $.ajax({
-    url : "db_funcs.php",
-    data : {
-      action : 'doThing',
-    },
-    type : 'post',
-    success : function(output) {
-      //everything echo'd in the doThing function is console log'd
-      console.log(output);
-    }
-  })
-}
-var getGameByIDJS = function() {
-  var myNumber = document.getElementById("GameInput").value;
+var getGameByIDJS = function(gameId) {
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'getGameByID',
-      a : myNumber,
+      a : gameId,
     },
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
       divOutput(output);
+      currentGame = JSON.parse(output);
     }
   })
 }
-var getPlayerByIDJS = function() {
-  var myNumber = document.getElementById("PlayerInput").value;
+var getPlayerByIDJS = function(playerId) {
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'getPlayerByID',
-      a : myNumber,
+      a : playerId,
     },
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
       divOutput(output);
+      currentPlayer = JSON.parse(output);
     }
   })
 }
@@ -279,51 +272,70 @@ var getTournamentByIDJS = function() {
     }
   })
 }
-var getFENByIDJS = function() {
-  var myNumber = document.getElementById("FENInput").value;
+var getFENByIDJS = function(fenID) {
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'getFENByID',
-      a : myNumber,
+      a : fenID,
     },
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      divOutput(output);
+      //divOutput(output);
+      currentFEN = JSON.parse(output);
     }
   })
 }
-var getAllGamesWithSameOpeningJS = function() {
-  var myNumber = document.getElementById("GameOpeningInput").value;
+var getAllGamesWithSameOpeningJS = function(openingID) {
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'getAllGamesWithSameOpening',
-      a : myNumber,
+      a : openingID,
     },
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
       divOutput(output);
+      games = JSON.parse(output);
     }
   })
 }
-var getAllGamesWithAFENJS = function() {
-  var myNumber = document.getElementById("GameFENInput").value;
+var getAllGamesWithAFENJS = function(fenID) {
+  //var fenID = document.getElementById("GameFENInput").value;
+  fenID = currentFENID;
+  var myvar = "";
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'getAllGamesWithAFEN',
-      a : myNumber,
+      a : fenID,
     },
     type : 'post',
     success : function(output) {
       //everything echo'd in the doThing function is console log'd
-      divOutput(output);
-      populateMoves(output);
+      //divOutput(output);
+      myvar = JSON.parse(output);
+      i = 0;
+      while(i<myvar.num_rows){
+        console.log("hello");
+        games[i] = myvar[i].GameId;
+        i++;
+      }
     }
   })
+}
+var populateMoves = function(input,fenID){
+  console.log(input);
+  console.log(fenID);
+  var i = 0;
+  while(i<input.length){
+    console.log("before")
+    getFENByIDJS(fenID);
+    i++;
+  }
+  console.log("after");
 }
 var getAllGamesPlayedByAPlayerJS = function() {
   var myNumber = document.getElementById("PlayerGameInput").value;
@@ -422,13 +434,93 @@ var populateCurrentGameJS = function() {
       currentMoveNumber = 0;
       while(i<myvar.num_rows){
         currentGameFENS[i] = myvar[i].PiecePlacement;
-        //myText = myText + '<a onClick="boardSetupFEN(\''+myvar[i].PiecePlacement+'\')" style="cursor: pointer; cursor: hand;">move '+i+'</a><br>'
         i++;
       }
-      //document.getElementById('availNextMoves').innerHTML = myText;
+      boardSetupFEN(currentGameFENS[0]);
+      displayGameInfo(myvar[0].GameId);
     }
   })
 }
+var displayGameInfo = function(gameId){
+  var myText = "";
+  getGameByIDJS(gameId);
+  $(document).ajaxStop(function () {
+    var winner = "draw";
+    if(currentGame[0].Winner == currentGame[0].White){winner = currentGame[0].White;}
+    if(currentGame[0].Winner == currentGame[0].Black){winner = currentGame[0].Black;}
+    myText = "<p>";
+    myText = myText+"White Player: <a onClick = 'displayPlayerInfo("+currentGame[0].WhitePlayer+","+gameId+");'style='cursor: pointer; cursor: hand;''>"+currentGame[0].WhitePlayer+"</a>";
+    myText = myText+"<br>Black Player: <a onClick = 'displayPlayerInfo("+currentGame[0].BlackPlayer+","+gameId+");'style='cursor: pointer; cursor: hand;''>"+currentGame[0].BlackPlayer+"</a>";
+    myText = myText+"<br><a onClick = 'displayOpeningInfo("+gameId+");'style='cursor: pointer; cursor: hand;''>Opening Info</a>";
+    myText = myText+"<br>Winner: "+winner;
+    myText = myText+ "</p>";
+    document.getElementById("displayInfo").innerHTML = myText;
+    console.log(myText);
+  });
+}
+var displayPlayerInfo = function(playerID,gameId){
+  var myText = "";
+  console.log("here");
+  getPlayerByIDJS(playerID);
+  $(document).ajaxStop(function () {
+    myText = "<p>";
+    myText = myText+"First Name: "+currentPlayer[0].FirstName;
+    myText = myText+"<br>Last Name: "+currentPlayer[0].LastName;
+    myText = myText+"<br>Rating: "+currentPlayer[0].ELO;
+    myText = myText+"<br>Game: <a onClick = 'displayGameInfo("+gameId+");'style='cursor: pointer; cursor: hand;''>Game</a>";
+    myText = myText+ "</p>";
+    document.getElementById("displayInfo").innerHTML = myText;
+    console.log(myText);
+  });  
+}
+var displayOpeningInfo = function(gameId){
+  var myText = "";
+  console.log("here");
+  getAllOpeningsOfAGameJS(gameId);
+  $(document).ajaxStop(function () {
+    myText = "<p>";
+    i = 0;
+    while(i<openings.num_rows){
+      myText = myText+"<a onClick = 'displayOpeningGames("+openings[i].OpeningId+");'style='cursor: pointer; cursor: hand;''>ID: </a>"+openings[i].OpeningId+"</p>";
+      myText = myText+"<br>Name: "+openings[i].Name;
+      myText = myText+"<br>"+openings[i].Moves;
+      i++;
+    }
+    myText = myText+"<br>Game: <a onClick = 'displayGameInfo("+gameId+");'style='cursor: pointer; cursor: hand;''>Game</a></p>";
+    document.getElementById("displayInfo").innerHTML = myText;
+  });  
+}
+var displayOpeningGames = function(openingID){
+var myText = "";
+  getAllGamesWithSameOpeningJS(gameId);
+  $(document).ajaxStop(function () {
+    console.log(games);
+    myText = "<p>";
+    i = 0;
+    while(i<games.num_rows){
+      myText = myText+"ID: <a onClick = 'displayGameInfo("+games[i].GameId+");'style='cursor: pointer; cursor: hand;''>"+games[i].GameId+"</a>/p>";
+      i++;
+    }
+    myText = myText+"<br>Game: <a onClick = 'displayGameInfo("+gameId+");'style='cursor: pointer; cursor: hand;''>Game</a></p>";
+    document.getElementById("displayInfo").innerHTML = myText;
+  });    
+}
+var getAllOpeningsOfAGameJS = function(gameId){
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getAllOpeningsOfAGame',
+      a : gameId,
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      divOutput(output);
+      openings = JSON.parse(output);
+    }
+  })
+}
+
 var moveForwardInGameJS = function(){
   if(currentMoveNumber+1<currentGameFENS.length){
     currentMoveNumber++;
@@ -441,23 +533,39 @@ var moveBackwardsInGameJS = function(){
     boardSetupFEN(currentGameFENS[currentMoveNumber]);
   }
 }
-var generateNextMoveJS = function(){
-  var myNumber = document.getElementById("GenerateNextMoveInput").value;
-  var moveNumber = 3;
-  var playerToMove = "b";
+var generateNextMoveJS = function(fenID,moveNumber,playerToMove){
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'getNextMoveFromGame',
-      a : myNumber,
+      a : fenID,
       b : playerToMove,
       c : moveNumber
     },
     type : 'post',
     success : function(output) {
-      console.log(output);
+      //console.log(output);
       //everything echo'd in the doThing function is console log'd
       divOutput(output);
     }
   })
+}
+var showAllNextMovesJS = function(){
+  getFENByIDJS(currentFENID);
+  getAllGamesWithAFENJS(currentFENID);
+  $(document).ajaxStop(function () {
+    console.log(currentFEN);
+    console.log(games);
+    console.log(games.length);
+  });
+  console.log("here");
+    i = 0;
+
+     while(i<games.length){
+      //generateNextMoveJS(currentFENID,currentFEN.fullMoveNumber,currentFEN.playerToMove);
+      generateNextMoveJS(currentGameID,3,'b');
+      i++;
+    }
+
+
 }

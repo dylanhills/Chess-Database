@@ -29,6 +29,9 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
         case 'getAllGamesWithSameOpening' :
           $sql = "SELECT * FROM gameopening where OpeningId in ( Select OpeningId from gameopening where GameId = $a)";
           break;
+        case 'getAllOpeningsOfAGame':
+          $sql = "SELECT * FROM opening where OpeningId in ( Select OpeningId from gameopening where GameId = $a)";
+          break;
         case 'getAllGamesWithAFEN' : //fuck
           $sql = "SELECT GameId FROM gamefen where FENId = $a";
           break;
@@ -58,16 +61,18 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
             // echo $sql; return;
           break;
         case 'getNextMoveFromGame':
-          $playerToMove = $_POST['b'];
-          $moveNumber = parseInt($_POST['c']);
-          if($playerToMove == "w"){
-            $playerToMove = "b";
-          }
-          else{
-            $playerToMove = "w";
-            $moveNumber = $moveNumber+1;
-          }
-          $sql = "SELECT * FROM fen as f INNER JOIN gamefen as g ON f.fenid=g.fenid WHERE f.fullMoveCounter = $moveNumber AND f.playerToMove = $playerToMove AND g.gameid = $a";
+          // $playerToMove = $_POST['b'];
+          // $moveNumber = parseInt($_POST['c']);
+          // if($playerToMove == "w"){
+          //   $playerToMove = "b";
+          // }
+          // else{
+          //   $playerToMove = "w";
+          //   $moveNumber = $moveNumber+1;
+          // }
+          $playerToMove = 'b';
+          $moveNumber = 3;
+          $sql = "SELECT f.PiecePlacement FROM fen as f INNER JOIN gamefen as g ON f.fenid=g.fenid WHERE f.fullMoveCounter = $moveNumber AND f.PlayerToMove = \"$playerToMove\" AND g.gameid = $a";
           break;
     }
 

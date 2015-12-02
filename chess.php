@@ -29,7 +29,7 @@
 			<div class = "col-xs-6">
 				<ul class="nav nav-tabs" style="padding-top:12px; margin-bottom:20px">
 					<li role="presentation" class="tabs active" data-tab="tools"><a href="#">Tools</a></li>
-					<li role="presentation" class="tabs" data-tab="players"><a href="#">Players</a></li>
+					<li role="presentation" class="tabs" data-tab="GameInfo"><a href="#">Game Info</a></li>
 					<li role="presentation" class="tabs" data-tab="openings"><a href="#">Openings</a></li>
 				</ul>
 				<div id="tools" class="tabContent" >
@@ -39,20 +39,11 @@
 							<button id = "GameButton" onclick = "moveForwardInGameJS()" class="btn btn-default">Forward</button>
 
 						</div>
-						<input id = "GameInput" type = "text" name = "Game"> &nbsp;
-						<button id = "GameButton" onclick = "getGameByIDJS()" class="btn btn-default">Get Game By ID</button>
-						<br>
-						<input id = "PlayerInput" type = "text" name = "Player"> &nbsp;
-						<button id = "PlayerButton" onclick = "getPlayerByIDJS()" class="btn btn-default">Get Player By ID</button>
-						<br>
 						<input id = "OpeningInput" type = "text" name = "Opening"> &nbsp;
 						<button id = "OpeningButton" onclick = "getOpeningByIDJS()" class="btn btn-default">Get Opening By ID</button>
 						<br>
 						<input id = "TournamentInput" type = "text" name = "Tournament"> &nbsp;
 						<button id = "TournamentButton" onclick = "getTournamentByIDJS()" class="btn btn-default">Get Tournament By ID</button>
-						<br>
-						<input id = "FENInput" type = "text" name = "FEN"> &nbsp;
-						<button id = "FENButton" onclick = "getFENByIDJS()" class="btn btn-default">Get FEN By ID</button>
 						<br>
 						<input id = "GameOpeningInput" type = "text" name = "GameOpening"> &nbsp;
 						<button id = "GameOpeningButton" onclick = "getAllGamesWithSameOpeningJS()" class="btn btn-default">Get All Games With Same Opening</button>
@@ -73,17 +64,18 @@
 						<br>
 						<input id = "NextMovesInput" type = "text" name = "Moves"> &nbsp;
 						<button id = "NextMovesButton" onclick = "getNextMovesJS()" class="btn btn-default">Get Common Next Moves</button>
+						<br>
 						<input id = "PopulateGameInput" type = "text" name = "GameMoves"> &nbsp;
 						<button id = "PopulateGameButton" onclick = "populateCurrentGameJS()" class="btn btn-default">Follow a game</button>
 
-						<input id = "GenerateNextMoveInput" type = "text" name = "GenerateNextMove"> &nbsp;
-						<button id = "GenerateNextMoveButton" onclick = "generateNextMoveJS()" class="btn btn-default">Generate Next Move</button>
+						<input id = "ShowAllNextMovesInput" type = "text" name = "ShowAllNextMoves"> &nbsp;
+						<button id = "ShowAllNextMovesButton" onclick = "showAllNextMovesJS()" class="btn btn-default">ShowAllNextMoves</button>
 
 					<div id = "FENOutput"></div>
 					</div>
 				</div>
-				<div id="players" class="tabContent">
-					<p>WERK</p>
+				<div id="GameInfo" class="tabContent">
+					<div id = "displayInfo"></div>
 				</div>
 				<div id="openings" class="tabContent" >
 					<p>whaaat</p>
