@@ -3,8 +3,11 @@
 if(isset($_POST['action']) && !empty($_POST['action'])) {
     $action = $_POST['action'];
     $db = new mysqli("localhost", "root", "toor", "chess");
+    $a = "";
+    if($_POST['a']) {
+      $a = $_POST['a'];
+    }
 
-    $a = $_POST['a'];
 
     $a = mysqli_real_escape_string($db, $a);
 
