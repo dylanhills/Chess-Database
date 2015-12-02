@@ -125,7 +125,7 @@ var divOutput = function(output) {
   //console.log(output);
   try {
     var x = JSON.parse(output);
-    console.log(x);
+    //console.log(x);
     if(x.num_rows == 0) {
       $("#dbOut").html("No results!");
     } else {
@@ -238,6 +238,7 @@ var getAllGamesWithSameOpeningJS = function(openingID) {
       //everything echo'd in the doThing function is console log'd
       divOutput(output);
       games = JSON.parse(output);
+      console.log("games");
     }
   })
 }
@@ -258,23 +259,11 @@ var getAllGamesWithAFENJS = function(fenID) {
       myvar = JSON.parse(output);
       i = 0;
       while(i<myvar.num_rows){
-        console.log("hello");
         games[i] = myvar[i].GameId;
         i++;
       }
     }
   })
-}
-var populateMoves = function(input,fenID){
-  console.log(input);
-  console.log(fenID);
-  var i = 0;
-  while(i<input.length){
-    console.log("before")
-    getFENByIDJS(fenID);
-    i++;
-  }
-  console.log("after");
 }
 var getAllGamesPlayedByAPlayerJS = function() {
   var myNumber = document.getElementById("PlayerGameInput").value;
@@ -373,6 +362,7 @@ var getGamesWithSameFENJS = function() {
   })
 }
 
+<<<<<<< Updated upstream
 var getNextMovesJS = function() {
   console.log("fuck");
   var fen = $('#fen').text().split(" ");
@@ -392,18 +382,22 @@ var getNextMovesJS = function() {
 
 var populateCurrentGameJS = function() {
   var myNumber = document.getElementById("PopulateGameInput").value;
+=======
+var populateCurrentGameJS = function(gameID) {
+  if(!gameID){
+    gameID = document.getElementById("PopulateGameInput").value;
+  }
+>>>>>>> Stashed changes
   var myvar = "";
   var myText = "";
   $.ajax({
     url : "db_funcs.php",
     data : {
       action : 'getMovesOfGame',
-      a : myNumber,
+      a : gameID,
     },
     type : 'post',
     success : function(output) {
-      console.log(output);
-      //everything echo'd in the doThing function is console log'd
       divOutput(output);
       myvar = JSON.parse(output);
       var i = 0;
@@ -431,12 +425,10 @@ var displayGameInfo = function(gameId){
     myText = myText+"<br>Winner: "+winner;
     myText = myText+ "</p>";
     document.getElementById("displayInfo").innerHTML = myText;
-    console.log(myText);
   });
 }
 var displayPlayerInfo = function(playerID,gameId){
   var myText = "";
-  console.log("here");
   getPlayerByIDJS(playerID);
   $(document).ajaxStop(function () {
     myText = "<p>";
@@ -446,18 +438,21 @@ var displayPlayerInfo = function(playerID,gameId){
     myText = myText+"<br>Game: <a onClick = 'displayGameInfo("+gameId+");'style='cursor: pointer; cursor: hand;''>Game</a>";
     myText = myText+ "</p>";
     document.getElementById("displayInfo").innerHTML = myText;
+<<<<<<< Updated upstream
     console.log(myText);
   });
+=======
+  });  
+>>>>>>> Stashed changes
 }
 var displayOpeningInfo = function(gameId){
   var myText = "";
-  console.log("here");
   getAllOpeningsOfAGameJS(gameId);
   $(document).ajaxStop(function () {
     myText = "<p>";
     i = 0;
     while(i<openings.num_rows){
-      myText = myText+"<a onClick = 'displayOpeningGames("+openings[i].OpeningId+");'style='cursor: pointer; cursor: hand;''>ID: </a>"+openings[i].OpeningId+"</p>";
+      myText = myText+"Opening ID: <a onClick = 'displayOpeningGames("+openings[i].OpeningId+","+gameId+");'style='cursor: pointer; cursor: hand;''>"+openings[i].OpeningId+"</a></p>";
       myText = myText+"<br>Name: "+openings[i].Name;
       myText = myText+"<br>"+openings[i].Moves;
       i++;
@@ -466,18 +461,18 @@ var displayOpeningInfo = function(gameId){
     document.getElementById("displayInfo").innerHTML = myText;
   });
 }
-var displayOpeningGames = function(openingID){
-var myText = "";
-  getAllGamesWithSameOpeningJS(gameId);
+var displayOpeningGames = function(openingID,gameID){
+  var myText = "";
+  getAllGamesWithSameOpeningJS(openingID);
   $(document).ajaxStop(function () {
     console.log(games);
     myText = "<p>";
     i = 0;
     while(i<games.num_rows){
-      myText = myText+"ID: <a onClick = 'displayGameInfo("+games[i].GameId+");'style='cursor: pointer; cursor: hand;''>"+games[i].GameId+"</a>/p>";
+      myText = myText+"ID: <a onClick = 'populateCurrentGameJS("+games[i].GameId+");'style='cursor: pointer; cursor: hand;''>"+games[i].GameId+"</a><br>";
       i++;
     }
-    myText = myText+"<br>Game: <a onClick = 'displayGameInfo("+gameId+");'style='cursor: pointer; cursor: hand;''>Game</a></p>";
+    myText = myText+"<br>Game: <a onClick = 'populateCurrentGameJS("+gameID+");'style='cursor: pointer; cursor: hand;''>Game</a></p>";
     document.getElementById("displayInfo").innerHTML = myText;
   });
 }
@@ -526,6 +521,7 @@ var generateNextMoveJS = function(fenID,moveNumber,playerToMove){
     }
   })
 }
+<<<<<<< Updated upstream
 
 $("#startPositionBtn").click(function() {
   init();
@@ -561,3 +557,5 @@ var showAllNextMovesJS = function() {
       i++;
     }
 }
+=======
+>>>>>>> Stashed changes
