@@ -48,7 +48,18 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
         case 'getMovesOfGame' :
           $sql = "SELECT * FROM gamefen AS g LEFT OUTER JOIN (  SELECT * FROM FEN ) AS f ON g.FENId = f.FENId WHERE g.GameId = $a ORDER BY f.FullMoveCounter ASC, f.PlayerToMove DESC";
           break;
-
+        case 'getNextMoveFromGame':
+          $playerToMove = $_POST['b'];
+          $moveNumber = parseInt($_POST['c']);
+          if($playerToMove == "w"){
+            $playerToMove = "b";
+          }
+          else{
+            $playerToMove = "w"; 
+            $moveNumber = $moveNumber+1;
+          }
+          $sql = "SELECT * FROM fen as f INNER JOIN gamefen as g ON f.fenid=g.fenid WHERE f.fullMoveCounter = $moveNumber AND f.playerToMove = $playerToMove AND g.gameid = $a";
+          break;
     }
 
     $stmt = mysqli_query($db, $sql);

@@ -35,7 +35,10 @@
 				<div id="tools" class="tabContent" >
 					<div class = "wrapper">
 						<div id = "availNextMoves">
-						</div>
+							<button id = "GameButton" onclick = "moveBackwardsInGameJS()" class="btn btn-default">Backward</button>				
+							<button id = "GameButton" onclick = "moveForwardInGameJS()" class="btn btn-default">Forward</button>				
+
+						</div>						
 						<input id = "GameInput" type = "text" name = "Game"> &nbsp;
 						<button id = "GameButton" onclick = "getGameByIDJS()" class="btn btn-default">Get Game By ID</button>
 						<br>
@@ -66,9 +69,11 @@
 						<input id = "BlackPawnStructInput" type = "text" name = "BlackPawnStruct"> &nbsp;
 						<button id = "BlackPawnStructButton" onclick = "getAllGamesWithSameBlackPawnStructJS()" class="btn btn-default">Get All Games That Reach This Black Pawn Struct</button>
 						<br>
-						<input id = "MovesInput" type = "text" name = "Moves"> &nbsp;
-						<button id = "MovesButton" onclick = "getMovesOfGameJS()" class="btn btn-default">Get All Moves of This Game</button>
+						<input id = "PopulateGameInput" type = "text" name = "GameMoves"> &nbsp;
+						<button id = "PopulateGameButton" onclick = "populateCurrentGameJS()" class="btn btn-default">Follow a game</button>
 
+						<input id = "GenerateNextMoveInput" type = "text" name = "GenerateNextMove"> &nbsp;
+						<button id = "GenerateNextMoveButton" onclick = "generateNextMoveJS()" class="btn btn-default">Generate Next Move</button>
 
 					<div id = "FENOutput"></div>
 					</div>
