@@ -65,6 +65,11 @@
 						<br>
 						<input id = "BlackPawnStructInput" type = "text" name = "BlackPawnStruct"> &nbsp;
 						<button id = "BlackPawnStructButton" onclick = "getAllGamesWithSameBlackPawnStructJS()" class="btn btn-default">Get All Games That Reach This Black Pawn Struct</button>
+						<br>
+						<input id = "MovesInput" type = "text" name = "Moves"> &nbsp;
+						<button id = "MovesButton" onclick = "getMovesOfGameJS()" class="btn btn-default">Get All Moves of This Game</button>
+
+
 					<div id = "FENOutput"></div>
 					</div>
 				</div>

@@ -180,11 +180,13 @@ $(document).ready(init);
 
 var divOutput = function(output) {
   try {
-    // var x = output.trim();
-    // x = JSON.parse(JSON.stringify(x));
     var x = JSON.parse(output);
     console.log(x);
-    $("#dbOut").html(JSON.stringify(x, null, '\t'));
+    if(x.num_rows == 0) {
+      $("#dbOut").html("No results!");
+    } else {
+      $("#dbOut").html(JSON.stringify(x, null, '\t'));
+    }
   } catch (e) {
     $("#dbOut").html("Invalid input: \n" + output);
   }
@@ -369,6 +371,22 @@ var getAllGamesWithSameBlackPawnStructJS = function() {
     }
   })
 }
+var getMovesOfGameJS = function() {
+  var myNumber = document.getElementById("MovesInput").value;
+  $.ajax({
+    url : "db_funcs.php",
+    data : {
+      action : 'getMovesOfGame',
+      a : myNumber,
+    },
+    type : 'post',
+    success : function(output) {
+      //everything echo'd in the doThing function is console log'd
+      divOutput(output);
+    }
+  })
+}
+
 var populateMoves = function(str){
 	var myvar = "rnbqk2r/pp2ppbp/2p2np1/3p4/3P4/5NP1/PPP1PPBP/RNBQ1RK1";
 	myText = '<a onClick="boardSetupFEN(\''+myvar+'\')" style="cursor: pointer; cursor: hand;">*click here*</a>'

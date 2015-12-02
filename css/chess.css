@@ -1,4 +1,10 @@
-
+pre {
+    white-space: pre-wrap;       /* CSS 3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
 
 .wrapper{
 	float:left;
@@ -42,8 +48,8 @@
     display:none;
 }
 
-a, a:active, a:focus, 
-button, button:focus, button:active, 
+a, a:active, a:focus,
+button, button:focus, button:active,
 .btn, .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn.focus:active, .btn.active.focus {
     outline: none;
     outline: 0;
