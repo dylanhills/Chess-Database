@@ -37,8 +37,9 @@
 						<div id = "availNextMoves">
 							<button id = "GameButton" onclick = "moveBackwardsInGameJS()" class="btn btn-default">Backward</button>
 							<button id = "GameButton" onclick = "moveForwardInGameJS()" class="btn btn-default">Forward</button>
-
+							<input type="button" id="startPositionBtn" value="Reset Board" class="btn btn-default" />
 						</div>
+						<br>
 						<input id = "GameInput" type = "text" name = "Game"> &nbsp;
 						<button id = "GameButton" onclick = "getGameByIDJS()" class="btn btn-default">Get Game By ID</button>
 						<br>
@@ -54,9 +55,6 @@
 						<input id = "FENInput" type = "text" name = "FEN"> &nbsp;
 						<button id = "FENButton" onclick = "getFENByIDJS()" class="btn btn-default">Get FEN By ID</button>
 						<br>
-						<input id = "GameOpeningInput" type = "text" name = "GameOpening"> &nbsp;
-						<button id = "GameOpeningButton" onclick = "getAllGamesWithSameOpeningJS()" class="btn btn-default">Get All Games With Same Opening</button>
-						<br>
 						<input id = "GameFENInput" type = "text" name = "GameFEN"> &nbsp;
 						<button id = "GameFENButton" onclick = "getAllGamesWithAFENJS()" class="btn btn-default">Get All Games With a FEN</button>
 						<br>
@@ -69,10 +67,10 @@
 						<input id = "BlackPawnStructInput" type = "text" name = "BlackPawnStruct"> &nbsp;
 						<button id = "BlackPawnStructButton" onclick = "getAllGamesWithSameBlackPawnStructJS()" class="btn btn-default">Get All Games That Reach This Black Pawn Struct</button>
 						<br>
-						<button id = "GamesWithSameFEN" onclick = "getGamesWithSameFENJS()" class="btn btn-default">Get All Moves of This Game</button>
+						<button id = "GamesWithSameFEN" onclick = "getGamesWithSameFENJS()" class="btn btn-default">Get Games with the Same FEN</button>
 						<br>
-						<input id = "NextMovesInput" type = "text" name = "Moves"> &nbsp;
 						<button id = "NextMovesButton" onclick = "getNextMovesJS()" class="btn btn-default">Get Common Next Moves</button>
+
 						<input id = "PopulateGameInput" type = "text" name = "GameMoves"> &nbsp;
 						<button id = "PopulateGameButton" onclick = "populateCurrentGameJS()" class="btn btn-default">Follow a game</button>
 
@@ -83,10 +81,11 @@
 					</div>
 				</div>
 				<div id="players" class="tabContent">
-					<p>WERK</p>
+					<p>whaaat</p>
 				</div>
 				<div id="openings" class="tabContent" >
-					<p>whaaat</p>
+					<button id = "getOpenings" onclick = "getOpeningsJS()" class="btn btn-default">Get Related Openings</button>
+					<button id = "GameOpeningButton" onclick = "getAllGamesWithSameOpeningJS()" class="btn btn-default">Get All Games With Same Opening</button>
 				</div>
 			</div>
 		</div>

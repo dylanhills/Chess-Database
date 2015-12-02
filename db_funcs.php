@@ -27,7 +27,8 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
           $sql = "SELECT * From Tournament Where TournamentId = $a";
           break;
         case 'getAllGamesWithSameOpening' :
-          $sql = "SELECT * FROM gameopening where OpeningId in ( Select OpeningId from gameopening where GameId = $a)";
+          $a = "\"" . $a . "%" . "\"";
+          $sql = "SELECT o.OpeningId, o.Name, o.Moves, g.GameId FROM opening as o left outer join gameopening as g on o.OpeningId = g.OpeningId WHERE o.Moves LIKE $a";
           break;
         case 'getAllGamesWithAFEN' : //fuck
           $sql = "SELECT GameId FROM gamefen where FENId = $a";
@@ -69,8 +70,32 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
           }
           $sql = "SELECT * FROM fen as f INNER JOIN gamefen as g ON f.fenid=g.fenid WHERE f.fullMoveCounter = $moveNumber AND f.playerToMove = $playerToMove AND g.gameid = $a";
           break;
-    }
+        case 'getOpenings':
+          $a = "\"" . $a . "%" . "\"";
+          $sql = "SELECT * FROM opening WHERE moves LIKE $a";
+          break;
+        case 'getNextMoves':
+          $b = $_POST['b'];
+          $a = str_replace("/", "%", $a);
 
+          $sql = "SELECT count(*) as c, j2.PiecePlacement FROM gamefen AS g
+          	      LEFT OUTER JOIN ( SELECT * FROM FEN ) AS f
+          	      ON g.FENId = f.FENId
+                  LEFT OUTER JOIN (SELECT g2.FENId, GameId as gid, f2.PiecePlacement, f2.FullMoveCounter, f2.PlayerToMove
+                                    FROM gamefen AS g2
+                                    LEFT OUTER JOIN ( SELECT * FROM FEN ) AS f2
+                                    ON g2.FENId = f2.FENId) as j2
+                  ON g.GameId = gid
+                  WHERE f.PiecePlacement LIKE \"" . $a . "\" ";
+                  if($b == 'b') {
+                    $sql = $sql . "AND j2.FullMoveCounter = f.FullMoveCounter + 1 AND j2.PlayerToMove = 'w' ";
+                  } else if($b == 'w') {
+                    $sql = $sql . "AND j2.FullMoveCounter = f.FullMoveCounter AND j2.PlayerToMove = 'b' ";
+                  }
+                  $sql = $sql . " GROUP BY j2.PiecePlacement ORDER BY c DESC";
+
+    }
+    // echo $sql;return;
     $stmt = mysqli_query($db, $sql);
 
     if(!$result = $db->query($sql)){
